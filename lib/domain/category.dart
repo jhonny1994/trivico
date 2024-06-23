@@ -8,7 +8,7 @@ part 'category.g.dart';
 @freezed
 class TriviaCategories with _$TriviaCategories {
   const factory TriviaCategories({
-    @JsonKey(name: 'trivia_categories') required List<TriviaCategory> triviaCategories,
+    @JsonKey(name: 'trivia_categories') required List<TriviaCategory> categories,
   }) = _TriviaCategories;
 
   factory TriviaCategories.fromJson(Map<String, dynamic> json) => _$TriviaCategoriesFromJson(json);

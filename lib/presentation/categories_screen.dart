@@ -20,9 +20,9 @@ class CategoriesScreen extends StatelessWidget {
       body: Padding(
         padding: kDefaultPadding,
         child: GridView.builder(
-          itemCount: TriviaCategories.fromJson(categoris).triviaCategories.length,
+          itemCount: TriviaCategories.fromJson(categoris).categories.length,
           itemBuilder: (context, index) {
-            final category = TriviaCategories.fromJson(categoris).triviaCategories.elementAt(index);
+            final category = TriviaCategories.fromJson(categoris).categories.elementAt(index);
             return InkWell(
               onTap: () => context.navigator.push(
                 MaterialPageRoute(

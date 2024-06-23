@@ -21,8 +21,7 @@ TriviaCategories _$TriviaCategoriesFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TriviaCategories {
   @JsonKey(name: 'trivia_categories')
-  List<TriviaCategory> get triviaCategories =>
-      throw _privateConstructorUsedError;
+  List<TriviaCategory> get categories => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,8 +36,7 @@ abstract class $TriviaCategoriesCopyWith<$Res> {
       _$TriviaCategoriesCopyWithImpl<$Res, TriviaCategories>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'trivia_categories')
-      List<TriviaCategory> triviaCategories});
+      {@JsonKey(name: 'trivia_categories') List<TriviaCategory> categories});
 }
 
 /// @nodoc
@@ -54,12 +52,12 @@ class _$TriviaCategoriesCopyWithImpl<$Res, $Val extends TriviaCategories>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? triviaCategories = null,
+    Object? categories = null,
   }) {
     return _then(_value.copyWith(
-      triviaCategories: null == triviaCategories
-          ? _value.triviaCategories
-          : triviaCategories // ignore: cast_nullable_to_non_nullable
+      categories: null == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
               as List<TriviaCategory>,
     ) as $Val);
   }
@@ -74,8 +72,7 @@ abstract class _$$TriviaCategoriesImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'trivia_categories')
-      List<TriviaCategory> triviaCategories});
+      {@JsonKey(name: 'trivia_categories') List<TriviaCategory> categories});
 }
 
 /// @nodoc
@@ -89,12 +86,12 @@ class __$$TriviaCategoriesImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? triviaCategories = null,
+    Object? categories = null,
   }) {
     return _then(_$TriviaCategoriesImpl(
-      triviaCategories: null == triviaCategories
-          ? _value._triviaCategories
-          : triviaCategories // ignore: cast_nullable_to_non_nullable
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
               as List<TriviaCategory>,
     ));
   }
@@ -105,25 +102,24 @@ class __$$TriviaCategoriesImplCopyWithImpl<$Res>
 class _$TriviaCategoriesImpl implements _TriviaCategories {
   const _$TriviaCategoriesImpl(
       {@JsonKey(name: 'trivia_categories')
-      required final List<TriviaCategory> triviaCategories})
-      : _triviaCategories = triviaCategories;
+      required final List<TriviaCategory> categories})
+      : _categories = categories;
 
   factory _$TriviaCategoriesImpl.fromJson(Map<String, dynamic> json) =>
       _$$TriviaCategoriesImplFromJson(json);
 
-  final List<TriviaCategory> _triviaCategories;
+  final List<TriviaCategory> _categories;
   @override
   @JsonKey(name: 'trivia_categories')
-  List<TriviaCategory> get triviaCategories {
-    if (_triviaCategories is EqualUnmodifiableListView)
-      return _triviaCategories;
+  List<TriviaCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_triviaCategories);
+    return EqualUnmodifiableListView(_categories);
   }
 
   @override
   String toString() {
-    return 'TriviaCategories(triviaCategories: $triviaCategories)';
+    return 'TriviaCategories(categories: $categories)';
   }
 
   @override
@@ -132,13 +128,13 @@ class _$TriviaCategoriesImpl implements _TriviaCategories {
         (other.runtimeType == runtimeType &&
             other is _$TriviaCategoriesImpl &&
             const DeepCollectionEquality()
-                .equals(other._triviaCategories, _triviaCategories));
+                .equals(other._categories, _categories));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_triviaCategories));
+      runtimeType, const DeepCollectionEquality().hash(_categories));
 
   @JsonKey(ignore: true)
   @override
@@ -157,16 +153,15 @@ class _$TriviaCategoriesImpl implements _TriviaCategories {
 
 abstract class _TriviaCategories implements TriviaCategories {
   const factory _TriviaCategories(
-          {@JsonKey(name: 'trivia_categories')
-          required final List<TriviaCategory> triviaCategories}) =
-      _$TriviaCategoriesImpl;
+      {@JsonKey(name: 'trivia_categories')
+      required final List<TriviaCategory> categories}) = _$TriviaCategoriesImpl;
 
   factory _TriviaCategories.fromJson(Map<String, dynamic> json) =
       _$TriviaCategoriesImpl.fromJson;
 
   @override
   @JsonKey(name: 'trivia_categories')
-  List<TriviaCategory> get triviaCategories;
+  List<TriviaCategory> get categories;
   @override
   @JsonKey(ignore: true)
   _$$TriviaCategoriesImplCopyWith<_$TriviaCategoriesImpl> get copyWith =>

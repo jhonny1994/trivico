@@ -9,7 +9,7 @@ part of 'category.dart';
 _$TriviaCategoriesImpl _$$TriviaCategoriesImplFromJson(
         Map<String, dynamic> json) =>
     _$TriviaCategoriesImpl(
-      triviaCategories: (json['trivia_categories'] as List<dynamic>)
+      categories: (json['trivia_categories'] as List<dynamic>)
           .map((e) => TriviaCategory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17,7 +17,7 @@ _$TriviaCategoriesImpl _$$TriviaCategoriesImplFromJson(
 Map<String, dynamic> _$$TriviaCategoriesImplToJson(
         _$TriviaCategoriesImpl instance) =>
     <String, dynamic>{
-      'trivia_categories': instance.triviaCategories,
+      'trivia_categories': instance.categories,
     };
 
 _$TriviaCategoryImpl _$$TriviaCategoryImplFromJson(Map<String, dynamic> json) =>
