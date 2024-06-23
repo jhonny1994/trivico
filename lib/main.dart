@@ -2,7 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trivico/presentation/onboarding_screen.dart';
+import 'package:trivico/presentation/categories_screen.dart';
 import 'package:trivico/utils/theme.dart';
 
 void main() {
@@ -24,13 +24,14 @@ class Trivico extends StatelessWidget {
       light: AppTheme.lightTheme,
       dark: AppTheme.darkTheme,
       initial: AdaptiveThemeMode.system,
+      debugShowFloatingThemeButton: true,
       builder: (light, dark) => MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
         theme: light,
         darkTheme: dark,
-        home: const OnboardingScreen(),
+        home: const CategoriesScreen(),
       ),
     );
   }

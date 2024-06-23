@@ -13,6 +13,7 @@ class AppTheme {
       error: const Color(0xffcf5d3e),
     ),
     appBarTheme: const AppBarTheme(
+      foregroundColor: Color(0xff699794),
       centerTitle: true,
       color: Colors.transparent,
       elevation: 0,
@@ -40,6 +41,8 @@ class AppTheme {
       color: Color(0xfff1ece4),
     ),
     scaffoldBackgroundColor: Colors.black,
-    textTheme: GoogleFonts.lilitaOneTextTheme(),
+    textTheme: GoogleFonts.lilitaOneTextTheme(
+      ThemeData(brightness: Brightness.dark).textTheme,
+    ),
   );
 }

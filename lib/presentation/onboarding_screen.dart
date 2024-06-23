@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trivico/presentation/home_screen.dart';
+import 'package:trivico/presentation/categories_screen.dart';
 import 'package:trivico/utils/constants.dart';
 import 'package:trivico/utils/extensions.dart';
 
@@ -34,7 +34,7 @@ class OnboardingScreen extends StatelessWidget {
               IconButton(
                 onPressed: () => context.navigator.pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => const CategoriesScreen(),
                   ),
                   (route) => false,
                 ),
