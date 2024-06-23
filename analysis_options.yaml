@@ -1,6 +1,9 @@
 include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
+  errors:
+    inference_failure_on_instance_creation: ignore
+    lines_longer_than_80_chars: ignore
   plugins:
     - custom_lint
     
