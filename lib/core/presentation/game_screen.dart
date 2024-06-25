@@ -190,6 +190,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                             child: const Icon(Icons.done),
                           ),
                         ),
+                      const Gap(16),
                     ],
                   );
                 },
