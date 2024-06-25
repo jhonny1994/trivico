@@ -1,4 +1,3 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -82,10 +81,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                   return Column(
                     children: [
                       AppBar(
-                        title: Text('${questionIndex + 1} of ${questions.length}'),
+                        title:
+                            Text('${questionIndex + 1} of ${questions.length}'),
                         actions: [
                           IconButton(
-                            onPressed: () => AdaptiveTheme.of(context).toggleThemeMode(),
+                            onPressed: () {},
                             icon: const Icon(
                               Icons.brightness_6,
                             ),
@@ -117,29 +117,36 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                 Text(
                                   question.question,
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.headlineSmall,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 const Spacer(flex: 3),
                                 ListView.builder(
                                   itemCount: question.allAnswers.length,
                                   shrinkWrap: true,
                                   itemBuilder: (context, answerIndex) {
-                                    final choice = question.allAnswers.elementAt(answerIndex);
-                                    final isSelected = question.selectedAnswer == choice;
+                                    final choice = question.allAnswers
+                                        .elementAt(answerIndex);
+                                    final isSelected =
+                                        question.selectedAnswer == choice;
 
                                     return Card(
                                       shape: const StadiumBorder(),
                                       child: ListTile(
                                         selected: isSelected,
                                         leading: Icon(
-                                          isSelected ? Icons.circle : Icons.circle_outlined,
+                                          isSelected
+                                              ? Icons.circle
+                                              : Icons.circle_outlined,
                                           color: context.colorScheme.secondary,
                                         ),
                                         horizontalTitleGap: 0,
                                         onTap: () {
                                           setState(
-                                            () =>
-                                                questions[questionIndex] = questions.elementAt(questionIndex).copyWith(
+                                            () => questions[questionIndex] =
+                                                questions
+                                                    .elementAt(questionIndex)
+                                                    .copyWith(
                                                       selectedAnswer: choice,
                                                     ),
                                           );
@@ -159,7 +166,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                       const Gap(8),
                       if (questionIndex != questions.length - 1)
                         IconButton(
-                          onPressed: question.selectedAnswer != null ? () => nextPage() : null,
+                          onPressed: question.selectedAnswer != null
+                              ? () => nextPage()
+                              : null,
                           iconSize: 56,
                           padding: EdgeInsets.zero,
                           icon: Container(
@@ -167,15 +176,19 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                               borderRadius: BorderRadius.circular(16),
                               color: Theme.of(context).colorScheme.primary,
                             ),
-                            child: const Icon(Icons.keyboard_arrow_right_rounded),
+                            child:
+                                const Icon(Icons.keyboard_arrow_right_rounded),
                           ),
                         )
                       else
                         IconButton(
-                          onPressed: questions.every((element) => element.selectedAnswer != null)
+                          onPressed: questions.every(
+                            (element) => element.selectedAnswer != null,
+                          )
                               ? () => context.navigator.pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                      builder: (context) => ResultScreen(questions: questions),
+                                      builder: (context) =>
+                                          ResultScreen(questions: questions),
                                     ),
                                     (route) => false,
                                   )
