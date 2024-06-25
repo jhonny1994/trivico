@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trivico/presentation/categories_screen.dart';
-import 'package:trivico/utils/constants.dart';
-import 'package:trivico/utils/extensions.dart';
+import 'package:trivico/core/providers/onboarding_notifier_provider.dart';
+import 'package:trivico/core/utils/constants.dart';
+import 'package:trivico/core/utils/extensions.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -32,12 +33,7 @@ class OnboardingScreen extends StatelessWidget {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () => context.navigator.pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const CategoriesScreen(),
-                  ),
-                  (route) => false,
-                ),
+                onPressed: () => ref.read(onboardingNotifierProvider.notifier).toggle(),
                 iconSize: 56,
                 padding: EdgeInsets.zero,
                 icon: Container(

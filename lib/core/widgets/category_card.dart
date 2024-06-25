@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:trivico/domain/category.dart';
-import 'package:trivico/utils/constants.dart';
-import 'package:trivico/utils/extensions.dart';
+import 'package:trivico/core/domain/category.dart';
+import 'package:trivico/core/utils/constants.dart';
+import 'package:trivico/core/utils/extensions.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
@@ -10,7 +10,7 @@ class CategoryCard extends StatelessWidget {
     super.key,
   });
 
-  final TriviaCategory category;
+  final Category category;
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +21,25 @@ class CategoryCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox.square(
-                dimension: context.height * 0.05,
+              Expanded(
+                flex: 2,
                 child: Image.asset(
                   'assets/${category.name}.png',
                   errorBuilder: (context, error, stackTrace) => Icon(
                     Icons.category,
-                    size: context.height * 0.05,
                     color: context.primaryColor,
                   ),
                 ),
               ),
               const Gap(8),
-              Text(
-                category.name,
-                textAlign: TextAlign.center,
+              Expanded(
+                child: Center(
+                  child: Text(
+                    category.name,
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.bodySmall,
+                  ),
+                ),
               ),
             ],
           ),

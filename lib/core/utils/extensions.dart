@@ -7,6 +7,10 @@ extension ContextExt on BuildContext {
 
   double get height => MediaQuery.of(this).size.height;
 
+  TextTheme get textTheme => Theme.of(this).textTheme;
+
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
+
   NavigatorState get navigator => Navigator.of(this);
 
   void showCustomSnackBar(String message) {

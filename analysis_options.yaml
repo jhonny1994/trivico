@@ -4,9 +4,16 @@ analyzer:
   errors:
     inference_failure_on_instance_creation: ignore
     lines_longer_than_80_chars: ignore
+    unnecessary_lambdas: ignore
+
   plugins:
     - custom_lint
     
+  exclude:
+    - "build/**"
+    - "**.freezed.dart"
+    - "**.g.dart"
+
 linter:
   rules:
     public_member_api_docs: false
