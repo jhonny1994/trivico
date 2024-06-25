@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trivico/core/presentation/categories_screen.dart';
 import 'package:trivico/core/presentation/onboarding_screen.dart';
 import 'package:trivico/core/providers/onboarding_notifier_provider.dart';
-import 'package:trivico/core/providers/packages/tiki_core/lib/providers/shared_prefrences_provider.dart';
+import 'package:trivico/core/providers/shared_prefrences_provider.dart';
 import 'package:trivico/core/utils/theme.dart';
 
 void main() async {

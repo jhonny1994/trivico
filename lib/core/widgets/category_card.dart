@@ -27,7 +27,7 @@ class CategoryCard extends StatelessWidget {
                   'assets/${category.name}.png',
                   errorBuilder: (context, error, stackTrace) => Icon(
                     Icons.category,
-                    color: context.primaryColor,
+                    color: context.colorScheme.primary,
                   ),
                 ),
               ),

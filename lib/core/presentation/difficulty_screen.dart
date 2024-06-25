@@ -44,14 +44,13 @@ class _DifficultyScreenState extends ConsumerState<DifficultyScreen> {
                 children: TriviaDifficulty.values
                     .map(
                       (e) => InkWell(
-                        onTap: () => context.navigator.pushAndRemoveUntil(
+                        onTap: () => context.navigator.push(
                           MaterialPageRoute(
                             builder: (context) => GameScreen(
                               categoryId: widget.category.id,
                               difficulty: e.name,
                             ),
                           ),
-                          (route) => false,
                         ),
                         child: DifficultyCard(difficulty: e.name),
                       ),

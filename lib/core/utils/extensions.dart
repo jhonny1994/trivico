@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 extension ContextExt on BuildContext {
-  Color get primaryColor => Theme.of(this).primaryColor;
-
   double get width => MediaQuery.of(this).size.width;
 
   double get height => MediaQuery.of(this).size.height;
@@ -30,5 +28,9 @@ extension ContextExt on BuildContext {
         return dialog;
       },
     );
+  }
+
+  int calculatePercent(int value, int percent) {
+    return (value * 100) ~/ percent;
   }
 }

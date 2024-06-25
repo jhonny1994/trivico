@@ -1,14 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:html_unescape/html_unescape_small.dart';
 import 'package:trivico/core/domain/category.dart';
 import 'package:trivico/core/domain/config.dart';
 import 'package:trivico/core/domain/question.dart';
 import 'package:trivico/core/utils/constants.dart';
 
 class TriviaApiService {
-  TriviaApiService(this.dio);
+  TriviaApiService(
+    this.dio,
+    this.htmlUnescape,
+  );
 
   final Dio dio;
+  final HtmlUnescape htmlUnescape;
 
   Future<Either<String, List<Category>>> getCategories() async {
     try {
@@ -44,7 +49,10 @@ class TriviaApiService {
       if (response.statusCode == 200 && response.data != null) {
         final questions = (response.data!['results'] as List<dynamic>)
             .map(
-              (e) => Question.fromJson(e as Map<String, dynamic>),
+              (e) => Question.fromJson(
+                e as Map<String, dynamic>,
+                htmlUnescape,
+              ),
             )
             .toList();
         return right(questions);
