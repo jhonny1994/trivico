@@ -12,6 +12,9 @@ dependencies:
   device_preview: ^1.2.0
   dio: ^5.4.3+1
   dio_smart_retry: ^6.0.0
+  firebase_analytics: ^11.1.0
+  firebase_core: ^3.1.1
+  firebase_crashlytics: ^4.0.2
   flutter:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
