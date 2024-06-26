@@ -21,8 +21,21 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - uses: cedvdb/action-flutter-build-android@v1
+        with:
+          keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
+          keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
+
+      - name: Archive APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-dev-release.apk
+
       - name: Release APK
         uses: oberhauser-dev/flutter-release-action@v0
         with:
           token: ${{ github.ACTIONS_TOKEN }}
           app-name: 'trivico'
+          android-keystore-file-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
+          android-keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
