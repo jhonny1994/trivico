@@ -11,10 +11,26 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
-      - name: Release APK
-        uses: oberhauser-dev/flutter-release-action@v0
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          app-name: 'trivico'
-          token: ${{ github.ACTIONS_TOKEN }}
-          android-keystore-file-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
-          android-keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
+          channel: stable
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - uses: cedvdb/action-flutter-build-android@v1
+        with:
+          keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
+          keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
+
+      - name: Archive APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-dev-release.apk
+        
+      - name: Flutter Deployment
+        uses: jeanluc243/Flutter-Deployment@0.1
