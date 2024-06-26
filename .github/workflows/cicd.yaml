@@ -39,17 +39,10 @@ jobs:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Generate Changelog
-        id: generate_changelog
-        uses: heinrichreimer/action-github-changelog-generator@v2.4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.version }}
-          body: ${{ steps.generate_changelog.outputs.changelog }}
           files: build/app/outputs/flutter-apk/app-release.apk
           token: "${{ secrets.ACTIONS_TOKEN }}"
           fail_on_unmatched_files: true
