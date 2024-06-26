@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "214754300312",
+    "project_id": "trivico-f97ee",
+    "storage_bucket": "trivico-f97ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214754300312:android:82aa42526234aa3acadbed",
+        "android_client_info": {
+          "package_name": "com.carbon.trivico"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS8WJs_FD4MyIOjP5jYHbsKzdDq1nyCLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
