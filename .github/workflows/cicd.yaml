@@ -31,6 +31,3 @@ jobs:
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-dev-release.apk
-        
-      - name: Flutter Deployment
-        uses: jeanluc243/Flutter-Deployment@0.1
