@@ -1,23 +1,26 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:trivico/core/domain/question.dart';
 import 'package:trivico/core/presentation/categories_screen.dart';
+import 'package:trivico/core/providers/theme_notifier_provider.dart';
 import 'package:trivico/core/utils/constants.dart';
 import 'package:trivico/core/utils/extensions.dart';
 
-class ResultScreen extends StatefulWidget {
+class ResultScreen extends ConsumerStatefulWidget {
   const ResultScreen({
-    required this.questions,
+    required this.correctAnswersCount,
+    required this.questionsCount,
     super.key,
   });
-  final List<Question> questions;
+  final int correctAnswersCount;
+  final int questionsCount;
 
   @override
-  State<ResultScreen> createState() => _ResultScreenState();
+  ConsumerState<ResultScreen> createState() => _ResultScreenState();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _ResultScreenState extends ConsumerState<ResultScreen> {
   late ConfettiController _confettiController;
 
   @override
@@ -33,76 +36,88 @@ class _ResultScreenState extends State<ResultScreen> {
     super.dispose();
   }
 
+  bool get _isCelebrate =>
+      widget.correctAnswersCount > 0 && ((widget.correctAnswersCount * 100) / widget.questionsCount) >= 50;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
+            icon: const Icon(
+              Icons.brightness_6,
+            ),
+          ),
+        ],
+      ),
       body: Stack(
         children: [
-          SafeArea(
-            child: Padding(
-              padding: kDefaultPadding,
-              child: Column(
-                children: [
-                  const Spacer(flex: 3),
-                  ClipOval(
-                    child: Container(
-                      height: context.width - kDefaultPadding.horizontal,
-                      width: context.width - kDefaultPadding.horizontal,
-                      color: Colors.white,
-                      child: SvgPicture.asset('assets/answer.svg'),
+          Padding(
+            padding: kDefaultPadding,
+            child: Column(
+              children: [
+                const Spacer(flex: 3),
+                ClipOval(
+                  child: Container(
+                    height: context.width - kDefaultPadding.horizontal,
+                    width: context.width - kDefaultPadding.horizontal,
+                    color: Colors.white,
+                    child: SvgPicture.asset('assets/svg/answer_${_isCelebrate ? 'correct' : 'wrong'}.svg'),
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  'Your Got',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  '${widget.correctAnswersCount} out of ${widget.questionsCount}',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  'correct answers',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () => context.navigator.pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const CategoriesScreen(),
                     ),
+                    (route) => false,
                   ),
-                  const Spacer(),
-                  Text(
-                    'Your Got',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  Text(
-                    '${widget.questions.where((e) => e.selectedAnswer == e.correctAnswer).length} out of ${widget.questions.length}',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  Text(
-                    'correct answers',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () => context.navigator.pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const CategoriesScreen(),
-                      ),
-                      (route) => false,
+                  iconSize: 56,
+                  padding: EdgeInsets.zero,
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                    iconSize: 56,
-                    padding: EdgeInsets.zero,
-                    icon: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      child: const Icon(Icons.keyboard_arrow_right),
-                    ),
+                    child: const Icon(Icons.keyboard_arrow_right),
                   ),
-                  const Spacer(),
-                ],
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+          if (_isCelebrate)
+            Align(
+              alignment: Alignment.topCenter,
+              child: ConfettiWidget(
+                confettiController: _confettiController,
+                blastDirection: 3.14 / 2,
+                maxBlastForce: 5,
+                minBlastForce: 2,
+                emissionFrequency: 0.05,
+                numberOfParticles: 20,
+                gravity: 0.1,
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: ConfettiWidget(
-              confettiController: _confettiController,
-              blastDirection: 3.14 / 2,
-              maxBlastForce: 5,
-              minBlastForce: 2,
-              emissionFrequency: 0.05,
-              numberOfParticles: 20,
-              gravity: 0.1,
-            ),
-          ),
         ],
       ),
     );

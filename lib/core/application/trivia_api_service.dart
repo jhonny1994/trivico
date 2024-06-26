@@ -11,8 +11,8 @@ class TriviaApiService {
     this.dio,
     this.htmlUnescape,
   );
-
   final Dio dio;
+
   final HtmlUnescape htmlUnescape;
 
   Future<Either<String, List<Category>>> getCategories() async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trivico/core/domain/category.dart';
 import 'package:trivico/core/presentation/game_screen.dart';
+import 'package:trivico/core/providers/theme_notifier_provider.dart';
 import 'package:trivico/core/utils/constants.dart';
 import 'package:trivico/core/utils/extensions.dart';
 import 'package:trivico/core/widgets/category_card.dart';
@@ -26,6 +27,14 @@ class _DifficultyScreenState extends ConsumerState<DifficultyScreen> {
           'Choose a difficulty',
           style: Theme.of(context).textTheme.headlineSmall,
         ),
+        actions: [
+          IconButton(
+            onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
+            icon: const Icon(
+              Icons.brightness_6,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: kDefaultPadding,

@@ -24,7 +24,7 @@ class CategoryCard extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Image.asset(
-                  'assets/${category.name}.png',
+                  'assets/png/${category.name}.png',
                   errorBuilder: (context, error, stackTrace) => Icon(
                     Icons.category,
                     color: context.colorScheme.primary,

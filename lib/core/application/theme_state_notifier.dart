@@ -7,13 +7,13 @@ class ThemeNotifier extends StateNotifier<bool> {
   }
   final SharedPreferences prefs;
 
-  Future<void> _init() async {
-    final darkMode = prefs.getBool('darkMode');
-    state = darkMode ?? false;
-  }
-
   Future<void> toggle() async {
     state = !state;
     await prefs.setBool('darkMode', state);
+  }
+
+  Future<void> _init() async {
+    final darkMode = prefs.getBool('darkMode');
+    state = darkMode ?? false;
   }
 }

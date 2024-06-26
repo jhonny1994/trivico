@@ -5,6 +5,7 @@ class GameConfig {
     this.amount = 10,
     this.type = 'multiple',
   });
+
   final int amount;
   final int category;
   final String difficulty;

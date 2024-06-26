@@ -45,7 +45,6 @@ class ThemedApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(themeNotifierProvider);
     final isBoarded = ref.watch(onboardingNotifierProvider);
-
     SystemChrome.setSystemUIOverlayStyle(
       !isDarkMode
           ? SystemUiOverlayStyle.dark.copyWith(
