@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Flutter
@@ -25,9 +25,10 @@ jobs:
         id: extract_version
         run: |
           VERSION=$(grep -o 'version:.*' pubspec.yaml | awk '{print $2}')
-          echo ::set-output name=version::"$VERSION"
-          
-      - uses: cedvdb/action-flutter-build-android@v1
+          echo "version=${VERSION//\'/}" >> $GITHUB_ENV
+  
+      - name: Build Android APK
+        uses: cedvdb/action-flutter-build-android@v1
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
@@ -38,16 +39,16 @@ jobs:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: "Release changelog"
+      - name: Generate Changelog
         id: generate_changelog
-        uses: heinrichreimer/action-github-changelog-generator@v2.3
+        uses: heinrichreimer/action-github-changelog-generator@v2.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-  
-      - name: Release
+
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.extract_version.outputs.version}}
+          tag_name: ${{ env.version }}
           body: ${{ steps.generate_changelog.outputs.changelog }}
           files: build/app/outputs/flutter-apk/app-release.apk
           token: "${{ secrets.ACTIONS_TOKEN }}"
