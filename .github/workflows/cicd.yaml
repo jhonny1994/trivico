@@ -35,6 +35,8 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: 1.0.0
           files: build/app/outputs/flutter-apk/app-release.apk
           token: "${{ secrets.ACTIONS_TOKEN }}"
+          tag_name: v${{ github.run_number }}
+          fail_on_unmatched_files: true
+          make_latest: true
