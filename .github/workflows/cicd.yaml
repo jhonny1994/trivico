@@ -15,15 +15,20 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          flutter-version-file: pubspec.yaml
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --release
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Archive APK
+        uses: actions/upload-artifact@v2
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-dev-release.apk
+
+      - name: Release APK
+        uses: oberhauser-dev/flutter-release-action@v0
+        with:
+          token: ${{ github.ACTIONS_TOKEN }}
+          app-name: 'trivico'
