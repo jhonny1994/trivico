@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trivico/core/providers/onboarding_notifier_provider.dart';
-import 'package:trivico/core/providers/theme_notifier_provider.dart';
-import 'package:trivico/core/utils/constants.dart';
-import 'package:trivico/core/utils/extensions.dart';
+import 'package:trivico/core/providers/providers.dart';
+import 'package:trivico/core/utils/utils.dart';
 
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
