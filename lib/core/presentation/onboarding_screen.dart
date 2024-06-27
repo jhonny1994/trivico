@@ -32,7 +32,7 @@ class OnboardingScreen extends ConsumerWidget {
                 height: context.width - kDefaultPadding.horizontal,
                 width: context.width - kDefaultPadding.horizontal,
                 color: Colors.white,
-                child: SvgPicture.asset('assets/question.svg'),
+                child: SvgPicture.asset('assets/svg/question.svg'),
               ),
             ),
             const Spacer(),
@@ -43,7 +43,8 @@ class OnboardingScreen extends ConsumerWidget {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () => ref.read(onboardingNotifierProvider.notifier).toggle(),
+              onPressed: () =>
+                  ref.read(onboardingNotifierProvider.notifier).toggle(),
               iconSize: 56,
               padding: EdgeInsets.zero,
               icon: Container(
