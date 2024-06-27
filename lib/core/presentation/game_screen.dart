@@ -218,7 +218,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                         )
                       else
                         IconButton(
-                          onPressed: _remainingSeconds == 0
+                          onPressed: _remainingSeconds == 0 || questionIndex == questions.length - 1
                               ? () => context.navigator.pushAndRemoveUntil(
                                     MaterialPageRoute(
                                       builder: (context) => ResultScreen(
