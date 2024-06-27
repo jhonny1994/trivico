@@ -25,11 +25,23 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   if (kReleaseMode) {
+    const fatalError = true;
+    // Non-async exceptions
     FlutterError.onError = (errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      if (fatalError) {
+        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+        // ignore: dead_code
+      } else {
+        FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+      }
     };
     PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      if (fatalError) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        // ignore: dead_code
+      } else {
+        FirebaseCrashlytics.instance.recordError(error, stack);
+      }
       return true;
     };
   }
