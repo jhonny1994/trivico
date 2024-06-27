@@ -63,15 +63,6 @@ class Trivico extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const ThemedApp();
-  }
-}
-
-class ThemedApp extends ConsumerWidget {
-  const ThemedApp({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(themeNotifierProvider);
     final isBoarded = ref.watch(onboardingNotifierProvider);
     SystemChrome.setSystemUIOverlayStyle(
