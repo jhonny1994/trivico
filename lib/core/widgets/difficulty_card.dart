@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trivico/core/utils/constants.dart';
+import 'package:trivico/core/utils/utils.dart';
 
 class DifficultyCard extends StatelessWidget {
   const DifficultyCard({

@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:trivico/core/domain/config.dart';
-import 'package:trivico/core/domain/question.dart';
-import 'package:trivico/core/presentation/result_screen.dart';
-import 'package:trivico/core/providers/theme_notifier_provider.dart';
-import 'package:trivico/core/providers/trivia_api_service_provider.dart';
-import 'package:trivico/core/utils/constants.dart';
-import 'package:trivico/core/utils/extensions.dart';
-import 'package:trivico/core/widgets/loading_widget.dart';
+import 'package:trivico/core/domain/domain.dart';
+import 'package:trivico/core/presentation/presentation.dart';
+import 'package:trivico/core/providers/providers.dart';
+import 'package:trivico/core/utils/utils.dart';
+import 'package:trivico/core/widgets/widgets.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({

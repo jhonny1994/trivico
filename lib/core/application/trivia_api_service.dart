@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:html_unescape/html_unescape_small.dart';
-import 'package:trivico/core/domain/category.dart';
-import 'package:trivico/core/domain/config.dart';
-import 'package:trivico/core/domain/question.dart';
-import 'package:trivico/core/utils/constants.dart';
+import 'package:trivico/core/domain/domain.dart';
+import 'package:trivico/core/utils/utils.dart';
+
 
 class TriviaApiService {
   TriviaApiService(

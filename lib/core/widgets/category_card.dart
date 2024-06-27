@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:trivico/core/domain/category.dart';
-import 'package:trivico/core/utils/constants.dart';
-import 'package:trivico/core/utils/extensions.dart';
+import 'package:trivico/core/domain/domain.dart';
+import 'package:trivico/core/utils/utils.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({

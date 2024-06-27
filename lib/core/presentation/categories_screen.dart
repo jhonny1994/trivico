@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trivico/core/presentation/difficulty_screen.dart';
-import 'package:trivico/core/providers/categories_provider.dart';
-import 'package:trivico/core/providers/theme_notifier_provider.dart';
-import 'package:trivico/core/utils/constants.dart';
-import 'package:trivico/core/utils/extensions.dart';
-import 'package:trivico/core/widgets/category_card.dart';
-import 'package:trivico/core/widgets/failure_widget.dart';
-import 'package:trivico/core/widgets/loading_widget.dart';
+import 'package:trivico/core/presentation/presentation.dart';
+import 'package:trivico/core/providers/providers.dart';
+import 'package:trivico/core/utils/utils.dart';
+import 'package:trivico/core/widgets/widgets.dart';
 
 class CategoriesScreen extends ConsumerWidget {
   const CategoriesScreen({super.key});

@@ -2,10 +2,9 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:trivico/core/presentation/categories_screen.dart';
-import 'package:trivico/core/providers/theme_notifier_provider.dart';
-import 'package:trivico/core/utils/constants.dart';
-import 'package:trivico/core/utils/extensions.dart';
+import 'package:trivico/core/presentation/presentation.dart';
+import 'package:trivico/core/providers/providers.dart';
+import 'package:trivico/core/utils/utils.dart';
 
 class ResultScreen extends ConsumerStatefulWidget {
   const ResultScreen({
