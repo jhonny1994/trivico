@@ -2,14 +2,14 @@
   "project_info": {
     "project_number": "214754300312",
     "project_id": "trivico-f97ee",
-    "storage_bucket": "trivico-f97ee.appspot.com"
+    "storage_bucket": "trivico-f97ee.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:214754300312:android:82aa42526234aa3acadbed",
+        "mobilesdk_app_id": "1:214754300312:android:dd1edfa5cfff7107cadbed",
         "android_client_info": {
-          "package_name": "com.carbon.trivico"
+          "package_name": "com.carbodex.trivico"
         }
       },
       "oauth_client": [],

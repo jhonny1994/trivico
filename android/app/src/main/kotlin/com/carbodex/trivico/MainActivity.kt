@@ -1,4 +1,4 @@
-package com.carbon.trivico
+package com.carbodex.trivico
 
 import io.flutter.embedding.android.FlutterActivity
 
