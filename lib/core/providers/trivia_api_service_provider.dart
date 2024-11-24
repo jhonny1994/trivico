@@ -5,5 +5,6 @@ import 'package:trivico/core/providers/providers.dart';
 final triviaApiProvider = Provider<TriviaApiService>((ref) {
   final dio = ref.read(dioProvider);
   final htmlUnescape = ref.read(htmlUnescapeProvider);
-  return TriviaApiService(dio, htmlUnescape);
+  final prefs = ref.read(sharedPreferencesProvider);
+  return TriviaApiService(dio, htmlUnescape, prefs);
 });

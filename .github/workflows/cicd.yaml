@@ -20,7 +20,7 @@ jobs:
           echo "ANDROID_STORAGE_BUCKET=${{ secrets.ANDROID_STORAGE_BUCKET }}" >> .env
 
       - name: Set up Java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4.5.0
         with:
           distribution: 'temurin'
           java-version: '17'

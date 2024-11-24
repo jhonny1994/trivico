@@ -10,7 +10,8 @@ class Trivico extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(themeNotifierProvider);
-    final isBoarded = ref.watch(onboardingNotifierProvider);
+    final router = ref.watch(routerProvider);
+
     SystemChrome.setSystemUIOverlayStyle(
       !isDarkMode
           ? SystemUiOverlayStyle.dark.copyWith(
@@ -21,14 +22,14 @@ class Trivico extends ConsumerWidget {
             ),
     );
 
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: isBoarded ? const CategoriesScreen() : const OnboardingScreen(),
+      routerConfig: router,
     );
   }
 }

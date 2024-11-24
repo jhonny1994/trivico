@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trivico/core/presentation/presentation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trivico/core/providers/providers.dart';
 import 'package:trivico/core/utils/utils.dart';
 import 'package:trivico/core/widgets/widgets.dart';
 
-class CategoriesScreen extends ConsumerWidget {
+class CategoriesScreen extends ConsumerStatefulWidget {
   const CategoriesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final categories = ref.watch(categoriesProvider);
+  ConsumerState<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(
+      () => ref.read(categoriesStateProvider.notifier).getCategories(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final categoriesState = ref.watch(categoriesStateProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -28,32 +41,28 @@ class CategoriesScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: kDefaultPadding,
-        child: categories.when(
-          data: (data) => data.fold(
-            (message) => Text(message),
-            (categories) => GridView.builder(
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final category = categories.elementAt(index);
-                return InkWell(
-                  onTap: () => context.navigator.push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DifficultyScreen(category: category),
-                    ),
-                  ),
-                  child: CategoryCard(category: category),
-                );
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.5,
-              ),
+        child: categoriesState.when(
+          initial: () => const LoadingWidget(),
+          loading: () => const LoadingWidget(),
+          error: (failure) => FailureWidget(
+            failure: failure,
+            onRetry: () =>
+                ref.read(categoriesStateProvider.notifier).getCategories(),
+          ),
+          success: (categories) => GridView.builder(
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              final category = categories.elementAt(index);
+              return InkWell(
+                onTap: () => context.pushNamed('difficulty', extra: category),
+                child: CategoryCard(category: category),
+              );
+            },
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1.5,
             ),
           ),
-          error: (error, stackTrace) =>
-              FailureWidget(message: error.toString()),
-          loading: () => const LoadingWidget(),
         ),
       ),
     );

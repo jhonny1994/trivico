@@ -2,7 +2,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:trivico/core/presentation/presentation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trivico/core/providers/providers.dart';
 import 'package:trivico/core/utils/utils.dart';
 
@@ -25,7 +25,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 5));
+    _confettiController =
+        ConfettiController(duration: const Duration(seconds: 5));
     _confettiController.play();
   }
 
@@ -36,7 +37,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
   }
 
   bool get _isCelebrate =>
-      widget.correctAnswersCount > 0 && ((widget.correctAnswersCount * 100) / widget.questionsCount) >= 50;
+      widget.correctAnswersCount > 0 &&
+      ((widget.correctAnswersCount * 100) / widget.questionsCount) >= 50;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,9 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                     height: context.width - kDefaultPadding.horizontal,
                     width: context.width - kDefaultPadding.horizontal,
                     color: Colors.white,
-                    child: SvgPicture.asset('assets/svg/answer_${_isCelebrate ? 'correct' : 'wrong'}.svg'),
+                    child: SvgPicture.asset(
+                      'assets/svg/answer_${_isCelebrate ? 'correct' : 'wrong'}.svg',
+                    ),
                   ),
                 ),
                 const Spacer(),
@@ -84,12 +88,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () => context.navigator.pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const CategoriesScreen(),
-                    ),
-                    (route) => false,
-                  ),
+                  onPressed: () => context.goNamed('categories'),
                   iconSize: 56,
                   padding: EdgeInsets.zero,
                   icon: Container(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trivico/core/domain/domain.dart';
-import 'package:trivico/core/presentation/presentation.dart';
 import 'package:trivico/core/providers/providers.dart';
 import 'package:trivico/core/utils/utils.dart';
 import 'package:trivico/core/widgets/widgets.dart';
@@ -51,13 +51,12 @@ class _DifficultyScreenState extends ConsumerState<DifficultyScreen> {
                 children: TriviaDifficulty.values
                     .map(
                       (e) => InkWell(
-                        onTap: () => context.navigator.push(
-                          MaterialPageRoute(
-                            builder: (context) => GameScreen(
-                              categoryId: widget.category.id,
-                              difficulty: e.name,
-                            ),
-                          ),
+                        onTap: () => context.pushNamed(
+                          'game',
+                          extra: {
+                            'categoryId': widget.category.id,
+                            'difficulty': e.name,
+                          },
                         ),
                         child: DifficultyCard(difficulty: e.name),
                       ),
