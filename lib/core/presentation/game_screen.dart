@@ -28,6 +28,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   late final PageController _pageController;
   int _remainingSeconds = timerSeconds;
   Timer? _timer;
+  bool _showCountdown = true;
 
   @override
   void initState() {
@@ -40,9 +41,15 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           difficulty: widget.difficulty,
         );
         await ref.read(questionsStateProvider.notifier).getQuestions(config);
-        _startTimer();
       },
     );
+  }
+
+  void _onCountdownFinished() {
+    setState(() {
+      _showCountdown = false;
+    });
+    _startTimer();
   }
 
   @override
@@ -62,6 +69,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }
 
   void _startTimer() {
+    if (_showCountdown) return;
     _timer?.cancel();
     setState(() {
       _remainingSeconds = timerSeconds;
@@ -75,6 +83,21 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           });
         } else {
           timer.cancel();
+          if (mounted) {
+            final questions = ref.read(questionsStateProvider).data;
+            if (questions != null) {
+              final correctAnswers = questions
+                  .where((q) => q.selectedAnswer == q.correctAnswer)
+                  .length;
+              context.pushNamed(
+                'result',
+                extra: {
+                  'correctAnswersCount': correctAnswers,
+                  'questionsCount': questions.length,
+                },
+              );
+            }
+          }
         }
       },
     );
@@ -102,143 +125,249 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
         return Scaffold(
           body: SafeArea(
-            child: Padding(
-              padding: kDefaultPadding,
-              child: PageView.builder(
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: questions.length,
-                itemBuilder: (context, questionIndex) {
-                  final question = questions[questionIndex];
-                  return Column(
-                    children: [
-                      Row(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: kDefaultPadding,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: questions.length,
+                    itemBuilder: (context, questionIndex) {
+                      final question = questions[questionIndex];
+                      return Column(
                         children: [
-                          Text(
-                            'Question ${questionIndex + 1}/${questions.length}',
-                            style: Theme.of(context).textTheme.titleMedium,
+                          Row(
+                            children: [
+                              Text(
+                                'Question ${questionIndex + 1}/${questions.length}',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              const Spacer(),
+                              StepProgressIndicator(
+                                totalSteps: timerSeconds,
+                                currentStep: _remainingSeconds,
+                                size: 8,
+                                padding: 0,
+                                selectedColor: context.colorScheme.primary,
+                                unselectedColor: context.colorScheme.primary
+                                    .withOpacity(kSecondaryOpacity),
+                                roundedEdges: const Radius.circular(10),
+                              ),
+                              const Gap(8),
+                              Text(
+                                '$_remainingSeconds',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
                           ),
-                          const Spacer(),
-                          StepProgressIndicator(
-                            totalSteps: timerSeconds,
-                            currentStep: _remainingSeconds,
-                            size: 8,
-                            padding: 0,
-                            selectedColor: context.colorScheme.primary,
-                            unselectedColor:
-                                context.colorScheme.primary.withOpacity(0.2),
-                            roundedEdges: const Radius.circular(10),
-                          ),
-                          const Gap(8),
-                          Text(
-                            '$_remainingSeconds',
-                            style: Theme.of(context).textTheme.titleMedium,
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Spacer(flex: 3),
+                                Text(
+                                  question.question,
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                const Spacer(flex: 3),
+                                ListView.builder(
+                                  itemCount: question.allAnswers.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    final answer =
+                                        question.allAnswers.elementAt(index);
+                                    final isSelected =
+                                        question.selectedAnswer == answer;
+                                    final isCorrect =
+                                        answer == question.correctAnswer;
+                                    final showResult =
+                                        question.selectedAnswer != null;
+
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 12),
+                                      child: AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            kSmallBorderRadius,
+                                          ),
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              if (showResult) ...[
+                                                if (isCorrect) ...[
+                                                  Colors.green.withOpacity(
+                                                    kSecondaryOpacity,
+                                                  ),
+                                                  Colors.green.withOpacity(
+                                                    kPrimaryOpacity,
+                                                  ),
+                                                ] else if (isSelected) ...[
+                                                  Colors.red.withOpacity(
+                                                    kSecondaryOpacity,
+                                                  ),
+                                                  Colors.red.withOpacity(
+                                                    kPrimaryOpacity,
+                                                  ),
+                                                ] else ...[
+                                                  context.colorScheme.surface,
+                                                  context.colorScheme.surface,
+                                                ],
+                                              ] else if (isSelected) ...[
+                                                context.colorScheme.primary
+                                                    .withOpacity(
+                                                  kSecondaryOpacity,
+                                                ),
+                                                context.colorScheme.primary
+                                                    .withOpacity(
+                                                  kPrimaryOpacity,
+                                                ),
+                                              ] else ...[
+                                                context.colorScheme.surface,
+                                                context.colorScheme.surface,
+                                              ],
+                                            ],
+                                          ),
+                                          border: Border.all(
+                                            color: showResult
+                                                ? isCorrect
+                                                    ? Colors.green
+                                                    : isSelected
+                                                        ? Colors.red
+                                                        : context
+                                                            .colorScheme.outline
+                                                            .withOpacity(
+                                                            kSecondaryOpacity *
+                                                                2.5,
+                                                          )
+                                                : isSelected
+                                                    ? context
+                                                        .colorScheme.primary
+                                                    : context
+                                                        .colorScheme.outline
+                                                        .withOpacity(
+                                                        kSecondaryOpacity * 2.5,
+                                                      ),
+                                            width: isSelected ||
+                                                    (showResult && isCorrect)
+                                                ? 2
+                                                : 1,
+                                          ),
+                                        ),
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: isSelected || showResult
+                                                ? null
+                                                : () async {
+                                                    ref
+                                                        .read(
+                                                          questionsStateProvider
+                                                              .notifier,
+                                                        )
+                                                        .selectAnswer(
+                                                          questionIndex,
+                                                          answer,
+                                                        );
+                                                    await Future.delayed(
+                                                      const Duration(
+                                                        seconds: 1,
+                                                      ),
+                                                    );
+                                                    if (questionIndex <
+                                                        questions.length - 1) {
+                                                      await nextPage();
+                                                    } else {
+                                                      final correctAnswers =
+                                                          questions
+                                                              .where(
+                                                                (q) =>
+                                                                    q.selectedAnswer ==
+                                                                    q.correctAnswer,
+                                                              )
+                                                              .length;
+                                                      if (context.mounted) {
+                                                        await context.pushNamed(
+                                                          'result',
+                                                          extra: {
+                                                            'correctAnswersCount':
+                                                                correctAnswers,
+                                                            'questionsCount':
+                                                                questions
+                                                                    .length,
+                                                          },
+                                                        );
+                                                      }
+                                                    }
+                                                  },
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(16),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      answer,
+                                                      style:
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .titleMedium
+                                                              ?.copyWith(
+                                                                color: showResult
+                                                                    ? isCorrect
+                                                                        ? Colors.green
+                                                                        : isSelected
+                                                                            ? Colors.red
+                                                                            : null
+                                                                    : isSelected
+                                                                        ? context.colorScheme.primary
+                                                                        : null,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                  if (showResult &&
+                                                      (isCorrect ||
+                                                          isSelected)) ...[
+                                                    const Gap(8),
+                                                    Icon(
+                                                      isCorrect
+                                                          ? Icons.check_circle
+                                                          : Icons.cancel,
+                                                      color: isCorrect
+                                                          ? Colors.green
+                                                          : Colors.red,
+                                                    ),
+                                                  ],
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const Spacer(),
+                              ],
+                            ),
                           ),
                         ],
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Spacer(flex: 3),
-                            Text(
-                              question.question,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            const Spacer(flex: 3),
-                            ListView.builder(
-                              itemCount: question.allAnswers.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, answerIndex) {
-                                final choice =
-                                    question.allAnswers.elementAt(answerIndex);
-                                final isSelected =
-                                    question.selectedAnswer == choice;
-
-                                return Card(
-                                  shape: const StadiumBorder(),
-                                  child: ListTile(
-                                    selected: isSelected,
-                                    title: Text(choice),
-                                    leading: Icon(
-                                      isSelected
-                                          ? Icons.check_circle
-                                          : Icons.circle_outlined,
-                                      color: context.colorScheme.secondary,
-                                    ),
-                                    horizontalTitleGap: 0,
-                                    onTap: () {
-                                      setState(
-                                        () => questions[questionIndex] =
-                                            questions
-                                                .elementAt(questionIndex)
-                                                .copyWith(
-                                                  selectedAnswer: choice,
-                                                ),
-                                      );
-                                    },
-                                    shape: const StadiumBorder(),
-                                  ),
-                                );
-                              },
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
-                      ),
-                      const Gap(8),
-                      if (questionIndex != questions.length - 1)
-                        IconButton(
-                          onPressed: question.selectedAnswer != null
-                              ? () async => nextPage()
-                              : null,
-                          iconSize: 56,
-                          padding: EdgeInsets.zero,
-                          icon: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            child:
-                                const Icon(Icons.keyboard_arrow_right_rounded),
-                          ),
-                        )
-                      else
-                        IconButton(
-                          onPressed: _remainingSeconds == 0 ||
-                                  questionIndex == questions.length - 1
-                              ? () {
-                                  final correctAnswers = questions
-                                      .where(
-                                        (e) =>
-                                            e.selectedAnswer == e.correctAnswer,
-                                      )
-                                      .length;
-
-                                  context.pushReplacementNamed(
-                                    'result',
-                                    extra: {
-                                      'correctAnswersCount': correctAnswers,
-                                      'questionsCount': questions.length,
-                                    },
-                                  );
-                                }
-                              : null,
-                          iconSize: 56,
-                          padding: EdgeInsets.zero,
-                          icon: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            child: const Icon(Icons.done_rounded),
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                ),
+                if (_showCountdown)
+                  CountdownOverlay(
+                    onFinished: _onCountdownFinished,
+                  ),
+              ],
             ),
           ),
         );

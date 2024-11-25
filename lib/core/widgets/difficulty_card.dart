@@ -45,36 +45,37 @@ class DifficultyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final difficultyColor = _getDifficultyColor(context);
 
-    return Card(
+   return Card(
+      elevation: 2,
+      shadowColor: difficultyColor.withOpacity(kSecondaryOpacity),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              difficultyColor.withOpacity(0.1),
-              difficultyColor.withOpacity(0.05),
-            ],
-          ),
+        decoration: UIDecorations.primaryCardDecoration(
+          context,
+          color: difficultyColor,
         ),
         child: Padding(
-          padding: kDefaultPadding * 2,
+          padding: kDefaultPadding,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                _getDifficultyIcon(),
-                color: difficultyColor,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                difficulty.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: context.textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
+              Container(
+                padding: kContentPadding,
+                decoration: UIDecorations.circularDecoration(
+                  context,
                   color: difficultyColor,
                 ),
+                child: Icon(
+                  _getDifficultyIcon(),
+                  size: 32,
+                  color: difficultyColor,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                difficulty,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: difficultyColor,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ],
           ),

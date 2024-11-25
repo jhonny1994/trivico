@@ -14,18 +14,10 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2,
+      shadowColor: context.colorScheme.primary.withOpacity(kSecondaryOpacity),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              context.colorScheme.primary.withOpacity(0.1),
-              context.colorScheme.primary.withOpacity(0.05),
-            ],
-          ),
-        ),
+        decoration: UIDecorations.primaryCardDecoration(context),
         child: Padding(
           padding: kDefaultPadding,
           child: Column(
@@ -34,11 +26,8 @@ class CategoryCard extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: context.colorScheme.primary.withOpacity(0.1),
-                  ),
+                  padding: kSmallPadding,
+                  decoration: UIDecorations.circularDecoration(context),
                   child: Image.asset(
                     'assets/png/${category.name}.png',
                     errorBuilder: (context, error, stackTrace) => Icon(
@@ -51,15 +40,14 @@ class CategoryCard extends StatelessWidget {
               ),
               const Gap(12),
               Expanded(
-                child: Center(
-                  child: Text(
-                    category.name,
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: context.colorScheme.onSurface,
-                    ),
-                  ),
+                child: Text(
+                  category.name,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
             ],

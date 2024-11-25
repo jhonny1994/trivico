@@ -28,7 +28,9 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
       appBar: AppBar(
         title: Text(
           'Choose a category',
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         actions: [
           IconButton(
@@ -53,7 +55,7 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
             itemCount: categories.length,
             itemBuilder: (context, index) {
               final category = categories.elementAt(index);
-              return InkWell(
+              return AnimatedScaleTap(
                 onTap: () => context.pushNamed('difficulty', extra: category),
                 child: CategoryCard(category: category),
               );
@@ -61,6 +63,8 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1.5,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
             ),
           ),
         ),

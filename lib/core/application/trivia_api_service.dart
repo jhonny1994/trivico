@@ -18,7 +18,6 @@ class TriviaApiService {
   final SharedPreferences prefs;
 
   static const _categoriesCacheKey = 'categories_cache';
-  static const _questionsCacheKey = 'questions_cache';
   static const _cacheExpiration = Duration(hours: 24);
   static const _maxRetries = 3;
 
@@ -71,28 +70,6 @@ class TriviaApiService {
     GameConfig config,
   ) async {
     try {
-      // Generate cache key based on config
-      final cacheKey =
-          '${_questionsCacheKey}_${config.category}_${config.difficulty}_${config.amount}';
-
-      // Try to get from cache first
-      final cachedData = prefs.getString(cacheKey);
-      if (cachedData != null) {
-        final cacheTime = prefs.getInt('${cacheKey}_time') ?? 0;
-        if (DateTime.now().millisecondsSinceEpoch - cacheTime <
-            _cacheExpiration.inMilliseconds) {
-          final decodedData = jsonDecode(cachedData) as Map<String, dynamic>;
-          final questions = (decodedData['results'] as List<dynamic>)
-              .map(
-                (e) =>
-                    Question.fromJson(e as Map<String, dynamic>, htmlUnescape),
-              )
-              .toList();
-          return right(questions);
-        }
-      }
-
-      // If not in cache or expired, fetch from API with retry
       return _retryOperation(() async {
         final response = await dio.get<Map<String, dynamic>>(
           '${baseUrl}api.php',
@@ -104,13 +81,6 @@ class TriviaApiService {
           },
         );
         if (response.statusCode == 200 && response.data != null) {
-          // Cache the response
-          await prefs.setString(cacheKey, jsonEncode(response.data));
-          await prefs.setInt(
-            '${cacheKey}_time',
-            DateTime.now().millisecondsSinceEpoch,
-          );
-
           final questions = (response.data!['results'] as List<dynamic>)
               .map(
                 (e) =>

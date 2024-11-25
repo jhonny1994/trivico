@@ -11,40 +11,50 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) =>
-            isBoarded ? const CategoriesScreen() : const OnboardingScreen(),
+        pageBuilder: (context, state) => FadeTransitionPage(
+          child:
+              isBoarded ? const CategoriesScreen() : const OnboardingScreen(),
+        ),
       ),
       GoRoute(
         path: '/categories',
         name: 'categories',
-        builder: (context, state) => const CategoriesScreen(),
+        pageBuilder: (context, state) => const FadeTransitionPage(
+          child: CategoriesScreen(),
+        ),
       ),
       GoRoute(
         path: '/difficulty',
         name: 'difficulty',
-        builder: (context, state) => DifficultyScreen(
-          category: state.extra! as Category,
+        pageBuilder: (context, state) => FadeTransitionPage(
+          child: DifficultyScreen(
+            category: state.extra! as Category,
+          ),
         ),
       ),
       GoRoute(
         path: '/game',
         name: 'game',
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final args = state.extra! as Map<String, dynamic>;
-          return GameScreen(
-            categoryId: args['categoryId'] as int,
-            difficulty: args['difficulty'] as String,
+          return FadeTransitionPage(
+            child: GameScreen(
+              categoryId: args['categoryId'] as int,
+              difficulty: args['difficulty'] as String,
+            ),
           );
         },
       ),
       GoRoute(
         path: '/result',
         name: 'result',
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final args = state.extra! as Map<String, dynamic>;
-          return ResultScreen(
-            correctAnswersCount: args['correctAnswersCount'] as int,
-            questionsCount: args['questionsCount'] as int,
+          return FadeTransitionPage(
+            child: ResultScreen(
+              correctAnswersCount: args['correctAnswersCount'] as int,
+              questionsCount: args['questionsCount'] as int,
+            ),
           );
         },
       ),

@@ -50,7 +50,7 @@ class _DifficultyScreenState extends ConsumerState<DifficultyScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: TriviaDifficulty.values
                     .map(
-                      (e) => InkWell(
+                      (e) => AnimatedScaleTap(
                         onTap: () => context.pushNamed(
                           'game',
                           extra: {
