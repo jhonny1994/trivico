@@ -32,13 +32,8 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
-            icon: const Icon(
-              Icons.brightness_6,
-            ),
-          ),
+        actions: const [
+          AnimatedThemeToggle(),
         ],
       ),
       body: Padding(

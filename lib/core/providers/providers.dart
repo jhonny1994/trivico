@@ -7,5 +7,6 @@ export 'questions_provider.dart';
 export 'questions_state_provider.dart';
 export 'router_provider.dart';
 export 'shared_prefrences_provider.dart';
+export 'theme_animation_provider.dart';
 export 'theme_notifier_provider.dart';
 export 'trivia_api_service_provider.dart';

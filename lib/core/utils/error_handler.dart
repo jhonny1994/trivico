@@ -3,6 +3,14 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:trivico/core/domain/failures.dart';
 
+class TrivicoException implements Exception {
+  const TrivicoException([this.message]);
+  final String? message;
+
+  @override
+  String toString() => message ?? 'Unknown error';
+}
+
 class ErrorHandler {
   static Failure handleException(Object error) {
     if (error is DioException) {
@@ -26,25 +34,34 @@ class ErrorHandler {
         return const Failure.networkError('No internet connection');
       case DioExceptionType.badResponse:
         return _handleBadResponse(error.response?.statusCode);
-      default:
-        return Failure.unexpectedError(error.message);
+      case DioExceptionType.badCertificate:
+        return const Failure.networkError('Bad certificate');
+      case DioExceptionType.cancel:
+        return const Failure.networkError('Request cancelled');
+      case DioExceptionType.unknown:
+        return Failure.unexpectedError(error.message.toString());
     }
   }
 
   static Failure _handleBadResponse(int? statusCode) {
-    switch (statusCode) {
-      case 400:
-        return const Failure.validationError('Invalid request');
-      case 401:
-        return const Failure.serverError('Unauthorized');
-      case 403:
-        return const Failure.serverError('Access denied');
-      case 404:
-        return const Failure.notFoundError('Resource not found');
-      case 500:
-        return const Failure.serverError('Internal server error');
-      default:
-        return const Failure.unexpectedError('Something went wrong');
+    if (statusCode == null) {
+      return const Failure.unexpectedError('Invalid response');
+    }
+
+    if (statusCode == 400) {
+      return const Failure.validationError('Invalid request');
+    } else if (statusCode == 401) {
+      return const Failure.serverError('Unauthorized');
+    } else if (statusCode == 403) {
+      return const Failure.serverError('Access denied');
+    } else if (statusCode == 404) {
+      return const Failure.notFoundError('Resource not found');
+    } else if (statusCode == 500) {
+      return const Failure.serverError('Internal server error');
+    } else if (statusCode < 500) {
+      return const Failure.validationError('Client error');
+    } else {
+      return const Failure.serverError('Server error');
     }
   }
 
@@ -53,7 +70,8 @@ class ErrorHandler {
     try {
       return await task();
     } catch (e) {
-      throw handleException(e);
+      final failure = handleException(e);
+      throw TrivicoException(failure.message);
     }
   }
 }

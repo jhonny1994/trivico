@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trivico/core/domain/domain.dart';
-import 'package:trivico/core/providers/providers.dart';
 import 'package:trivico/core/utils/utils.dart';
 import 'package:trivico/core/widgets/widgets.dart';
 
@@ -25,13 +24,8 @@ class _DifficultyScreenState extends ConsumerState<DifficultyScreen> {
           'Choose a difficulty',
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        actions: [
-          IconButton(
-            onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
-            icon: const Icon(
-              Icons.brightness_6,
-            ),
-          ),
+        actions: const [
+          AnimatedThemeToggle(),
         ],
       ),
       body: Padding(

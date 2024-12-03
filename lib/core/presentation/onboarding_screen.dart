@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:trivico/core/providers/providers.dart';
 import 'package:trivico/core/utils/utils.dart';
+import 'package:trivico/core/widgets/widgets.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -26,13 +27,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
-            icon: const Icon(
-              Icons.brightness_6,
-            ),
-          ),
+        actions: const [
+          AnimatedThemeToggle(),
         ],
       ),
       body: Padding(
