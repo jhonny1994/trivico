@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trivico/core/application/quiz_history_notifier.dart';
 import 'package:trivico/core/core.dart';
-import 'package:trivico/core/domain/quiz/quiz_history.dart';
 import 'package:uuid/uuid.dart';
 
 class ResultScreen extends ConsumerStatefulWidget {
@@ -220,7 +219,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                             .withOpacity(kSecondaryOpacity),
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
-                                                color),
+                                          color,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -302,7 +302,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                       Icon(
                                         Icons.cancel,
                                         color: color.withOpacity(
-                                            kSecondaryOpacity * 2.5),
+                                          kSecondaryOpacity * 2.5,
+                                        ),
                                         size: 32,
                                       ),
                                       const Gap(8),

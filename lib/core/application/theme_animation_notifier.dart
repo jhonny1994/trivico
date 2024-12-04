@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trivico/core/domain/theme/theme_animation_state.dart';
+import 'package:trivico/core/domain/theme_animation_state.dart';
 import 'package:trivico/core/utils/animation_constants.dart';
 
 class ThemeAnimationNotifier extends StateNotifier<ThemeAnimationState> {

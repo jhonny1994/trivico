@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:trivico/core/domain/quiz/quiz_history.dart';
+import 'package:trivico/core/domain/quiz_history.dart';
 
 part 'quiz_history_notifier.g.dart';
 

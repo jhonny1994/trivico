@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:trivico/core/application/quiz_history_notifier.dart';
 import 'package:trivico/core/core.dart';
-import 'package:trivico/core/domain/quiz/quiz_history.dart';
 
 class HistoryScreen extends ConsumerWidget {
   const HistoryScreen({super.key});
