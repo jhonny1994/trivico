@@ -83,8 +83,7 @@ class TriviaApiService {
         if (response.statusCode == 200 && response.data != null) {
           final questions = (response.data!['results'] as List<dynamic>)
               .map(
-                (e) =>
-                    Question.fromJson(e as Map<String, dynamic>, htmlUnescape),
+                (e) => Question.withHtmlUnescape(e as Map<String, dynamic>),
               )
               .toList();
           return right(questions);

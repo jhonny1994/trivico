@@ -280,10 +280,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                                         seconds: 1,
                                                       ),
                                                     );
-                                                    if (questionIndex <
-                                                        questions.length - 1) {
-                                                      await nextPage();
-                                                    } else {
+                                                    final isLastQuestion =
+                                                        questionIndex >=
+                                                            questions.length -
+                                                                1;
+                                                    if (isLastQuestion) {
+                                                      _timer?.cancel();
+                                                      if (!mounted) return;
+
                                                       final correctAnswers =
                                                           questions
                                                               .where(
@@ -292,18 +296,71 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                                                     q.correctAnswer,
                                                               )
                                                               .length;
+
+                                                      final category = ref
+                                                              .read(
+                                                                categoriesStateProvider,
+                                                              )
+                                                              .whenOrNull(
+                                                                success: (categories) =>
+                                                                    categories
+                                                                        .firstWhere(
+                                                                  (c) =>
+                                                                      c.id ==
+                                                                      widget
+                                                                          .categoryId,
+                                                                  orElse: () =>
+                                                                      Category(
+                                                                    id: widget
+                                                                        .categoryId,
+                                                                    name:
+                                                                        'Unknown',
+                                                                  ),
+                                                                ),
+                                                              ) ??
+                                                          Category(
+                                                            id: widget
+                                                                .categoryId,
+                                                            name: 'Unknown',
+                                                          );
+
+                                                      final difficulty =
+                                                          TriviaDifficulty
+                                                              .values
+                                                              .firstWhere(
+                                                        (d) =>
+                                                            d.name
+                                                                .toLowerCase() ==
+                                                            widget.difficulty
+                                                                .toLowerCase(),
+                                                      );
+
                                                       if (context.mounted) {
                                                         await context.pushNamed(
                                                           'result',
-                                                          extra: {
+                                                          extra: <String,
+                                                              dynamic>{
                                                             'correctAnswersCount':
                                                                 correctAnswers,
                                                             'questionsCount':
                                                                 questions
                                                                     .length,
+                                                            'category':
+                                                                category,
+                                                            'difficulty':
+                                                                difficulty,
+                                                            'questions':
+                                                                questions
+                                                                    .map(
+                                                                      (q) => q
+                                                                          .toJson(),
+                                                                    )
+                                                                    .toList(),
                                                           },
                                                         );
                                                       }
+                                                    } else {
+                                                      await nextPage();
                                                     }
                                                   },
                                             borderRadius:

@@ -32,6 +32,11 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                 fontWeight: FontWeight.bold,
               ),
         ),
+        leading: IconButton(
+          icon: const Icon(Icons.history),
+          tooltip: 'Quiz History',
+          onPressed: () => context.pushNamed('history'),
+        ),
         actions: const [
           AnimatedThemeToggle(),
         ],

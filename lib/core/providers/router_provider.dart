@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trivico/core/core.dart';
+import 'package:trivico/core/presentation/history_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final isBoarded = ref.watch(onboardingNotifierProvider);
@@ -54,9 +55,19 @@ final routerProvider = Provider<GoRouter>((ref) {
             child: ResultScreen(
               correctAnswersCount: args['correctAnswersCount'] as int,
               questionsCount: args['questionsCount'] as int,
+              category: args['category'] as Category,
+              difficulty: args['difficulty'] as TriviaDifficulty,
+              questions: (args['questions'] as List<dynamic>).cast<Map<String, dynamic>>(),
             ),
           );
         },
+      ),
+      GoRoute(
+        path: '/history',
+        name: 'history',
+        pageBuilder: (context, state) => const FadeTransitionPage(
+          child: HistoryScreen(),
+        ),
       ),
     ],
   );

@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Question _$QuestionFromJson(Map<String, dynamic> json) {
+  return _Question.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Question {
   String get question => throw _privateConstructorUsedError;
@@ -21,6 +25,9 @@ mixin _$Question {
   List<String> get incorrectAnswers => throw _privateConstructorUsedError;
   List<String> get allAnswers => throw _privateConstructorUsedError;
   String? get selectedAnswer => throw _privateConstructorUsedError;
+
+  /// Serializes this Question to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Question
   /// with the given fields replaced by the non-null parameter values.
@@ -149,9 +156,9 @@ class __$$QuestionImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$QuestionImpl implements _Question {
-  _$QuestionImpl(
+  const _$QuestionImpl(
       {required this.question,
       required this.correctAnswer,
       required final List<String> incorrectAnswers,
@@ -159,6 +166,9 @@ class _$QuestionImpl implements _Question {
       this.selectedAnswer})
       : _incorrectAnswers = incorrectAnswers,
         _allAnswers = allAnswers;
+
+  factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuestionImplFromJson(json);
 
   @override
   final String question;
@@ -206,6 +216,7 @@ class _$QuestionImpl implements _Question {
                 other.selectedAnswer == selectedAnswer));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -222,15 +233,25 @@ class _$QuestionImpl implements _Question {
   @pragma('vm:prefer-inline')
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
       __$$QuestionImplCopyWithImpl<_$QuestionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QuestionImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Question implements Question {
-  factory _Question(
+  const factory _Question(
       {required final String question,
       required final String correctAnswer,
       required final List<String> incorrectAnswers,
       required final List<String> allAnswers,
       final String? selectedAnswer}) = _$QuestionImpl;
+
+  factory _Question.fromJson(Map<String, dynamic> json) =
+      _$QuestionImpl.fromJson;
 
   @override
   String get question;
