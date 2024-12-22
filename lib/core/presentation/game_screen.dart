@@ -76,7 +76,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     });
     _timer = Timer.periodic(
       const Duration(seconds: 1),
-      (timer) {
+      (timer) async {
         if (_remainingSeconds > 0) {
           setState(() {
             _remainingSeconds--;
@@ -86,16 +86,49 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           if (mounted) {
             final questions = ref.read(questionsStateProvider).data;
             if (questions != null) {
-              final correctAnswers = questions
-                  .where((q) => q.selectedAnswer == q.correctAnswer)
-                  .length;
-              context.pushNamed(
-                'result',
-                extra: {
-                  'correctAnswersCount': correctAnswers,
-                  'questionsCount': questions.length,
-                },
-              );
+              if (questions.length > _pageController.page!.toInt() + 1) {
+                await nextPage();
+              } else {
+                final correctAnswers = questions
+                    .where((q) => q.selectedAnswer == q.correctAnswer)
+                    .length;
+                final category = ref
+                        .read(
+                          categoriesStateProvider,
+                        )
+                        .whenOrNull(
+                          success: (categories) => categories.firstWhere(
+                            (c) => c.id == widget.categoryId,
+                            orElse: () => Category(
+                              id: widget.categoryId,
+                              name: 'Unknown',
+                            ),
+                          ),
+                        ) ??
+                    Category(
+                      id: widget.categoryId,
+                      name: 'Unknown',
+                    );
+
+                final difficulty = TriviaDifficulty.values.firstWhere(
+                  (d) =>
+                      d.name.toLowerCase() == widget.difficulty.toLowerCase(),
+                );
+                await context.pushNamed(
+                  'result',
+                  extra: <String, dynamic>{
+                    'correctAnswersCount': correctAnswers,
+                    'questionsCount': questions.length,
+                    'category': category,
+                    'difficulty': difficulty,
+                    'questions': questions
+                        .map(
+                          (q) => q.toJson(),
+                        )
+                        .toList(),
+                  },
+                );
+              }
             }
           }
         }
@@ -151,7 +184,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                 padding: 0,
                                 selectedColor: context.colorScheme.primary,
                                 unselectedColor: context.colorScheme.primary
-                                    .withOpacity(kSecondaryOpacity),
+                                    .withValues(alpha: kSecondaryOpacity),
                                 roundedEdges: const Radius.circular(10),
                               ),
                               const Gap(8),
@@ -202,18 +235,18 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                             colors: [
                                               if (showResult) ...[
                                                 if (isCorrect) ...[
-                                                  Colors.green.withOpacity(
-                                                    kSecondaryOpacity,
+                                                  Colors.green.withValues(
+                                                    alpha: kSecondaryOpacity,
                                                   ),
-                                                  Colors.green.withOpacity(
-                                                    kPrimaryOpacity,
+                                                  Colors.green.withValues(
+                                                    alpha: kPrimaryOpacity,
                                                   ),
                                                 ] else if (isSelected) ...[
-                                                  Colors.red.withOpacity(
-                                                    kSecondaryOpacity,
+                                                  Colors.red.withValues(
+                                                    alpha: kSecondaryOpacity,
                                                   ),
-                                                  Colors.red.withOpacity(
-                                                    kPrimaryOpacity,
+                                                  Colors.red.withValues(
+                                                    alpha: kPrimaryOpacity,
                                                   ),
                                                 ] else ...[
                                                   context.colorScheme.surface,
@@ -221,12 +254,12 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                                 ],
                                               ] else if (isSelected) ...[
                                                 context.colorScheme.primary
-                                                    .withOpacity(
-                                                  kSecondaryOpacity,
+                                                    .withValues(
+                                                  alpha: kSecondaryOpacity,
                                                 ),
                                                 context.colorScheme.primary
-                                                    .withOpacity(
-                                                  kPrimaryOpacity,
+                                                    .withValues(
+                                                  alpha: kPrimaryOpacity,
                                                 ),
                                               ] else ...[
                                                 context.colorScheme.surface,
@@ -242,17 +275,20 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                                         ? Colors.red
                                                         : context
                                                             .colorScheme.outline
-                                                            .withOpacity(
-                                                            kSecondaryOpacity *
-                                                                2.5,
+                                                            .withValues(
+                                                            alpha:
+                                                                kSecondaryOpacity *
+                                                                    2.5,
                                                           )
                                                 : isSelected
                                                     ? context
                                                         .colorScheme.primary
                                                     : context
                                                         .colorScheme.outline
-                                                        .withOpacity(
-                                                        kSecondaryOpacity * 2.5,
+                                                        .withValues(
+                                                        alpha:
+                                                            kSecondaryOpacity *
+                                                                2.5,
                                                       ),
                                             width: isSelected ||
                                                     (showResult && isCorrect)

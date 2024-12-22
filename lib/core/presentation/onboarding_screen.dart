@@ -103,7 +103,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   boxShadow: [
                     BoxShadow(
                       color: context.colorScheme.shadow
-                          .withOpacity(kSecondaryOpacity),
+                          .withValues(alpha: kSecondaryOpacity),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),

@@ -175,7 +175,8 @@ class _HistoryCard extends StatelessWidget {
                   Text(
                     history.difficulty.name,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.75),
+                      color:
+                          theme.colorScheme.onSurface.withValues(alpha: 0.75),
                     ),
                   ),
                 ],
@@ -196,7 +197,7 @@ class _HistoryCard extends StatelessWidget {
                 Text(
                   history.timestamp.timeAgo,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.75),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
                   ),
                 ),
               ],

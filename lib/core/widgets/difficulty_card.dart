@@ -45,9 +45,9 @@ class DifficultyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final difficultyColor = _getDifficultyColor(context);
 
-   return Card(
+    return Card(
       elevation: 2,
-      shadowColor: difficultyColor.withOpacity(kSecondaryOpacity),
+      shadowColor: difficultyColor.withValues(alpha: kSecondaryOpacity),
       child: Container(
         decoration: UIDecorations.primaryCardDecoration(
           context,

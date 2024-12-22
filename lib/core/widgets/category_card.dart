@@ -15,7 +15,8 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shadowColor: context.colorScheme.primary.withOpacity(kSecondaryOpacity),
+      shadowColor:
+          context.colorScheme.primary.withValues(alpha: kSecondaryOpacity),
       child: Container(
         decoration: UIDecorations.primaryCardDecoration(context),
         child: Padding(

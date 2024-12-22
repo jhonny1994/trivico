@@ -41,7 +41,7 @@ class AppTheme {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      shadowColor: _primaryColor.withOpacity(0.1),
+      shadowColor: _primaryColor.withValues(alpha: 0.1),
     ),
     iconTheme: const IconThemeData(
       color: _primaryColor,

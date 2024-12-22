@@ -64,7 +64,7 @@ class _CountdownOverlayState extends State<CountdownOverlay>
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: context.colorScheme.onSurface.withOpacity(kSecondaryOpacity),
+      color: context.colorScheme.onSurface.withValues(alpha: kSecondaryOpacity),
       child: Center(
         child: Container(
           padding: kContentPadding,

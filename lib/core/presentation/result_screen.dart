@@ -195,10 +195,10 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                         child: Container(
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
-                            color: color.withOpacity(0.1),
+                            color: color.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(
-                              color: color.withOpacity(0.2),
+                              color: color.withValues(alpha: 0.2),
                               width: 2,
                             ),
                           ),
@@ -215,8 +215,9 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                       child: CircularProgressIndicator(
                                         value: _progressAnimation.value,
                                         strokeWidth: 12,
-                                        backgroundColor: color
-                                            .withOpacity(kSecondaryOpacity),
+                                        backgroundColor: color.withValues(
+                                          alpha: kSecondaryOpacity,
+                                        ),
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
                                           color,
@@ -245,8 +246,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                             .textTheme
                                             .titleMedium
                                             ?.copyWith(
-                                              color: color.withOpacity(
-                                                kPrimaryOpacity * 8,
+                                              color: color.withValues(
+                                                alpha: kPrimaryOpacity * 8,
                                               ),
                                             ),
                                       ),
@@ -282,8 +283,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                             .textTheme
                                             .titleSmall
                                             ?.copyWith(
-                                              color: color.withOpacity(
-                                                kPrimaryOpacity * 8,
+                                              color: color.withValues(
+                                                alpha: kPrimaryOpacity * 8,
                                               ),
                                             ),
                                       ),
@@ -295,14 +296,16 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                     margin: const EdgeInsets.symmetric(
                                       horizontal: 24,
                                     ),
-                                    color: color.withOpacity(kSecondaryOpacity),
+                                    color: color.withValues(
+                                      alpha: kSecondaryOpacity,
+                                    ),
                                   ),
                                   Column(
                                     children: [
                                       Icon(
                                         Icons.cancel,
-                                        color: color.withOpacity(
-                                          kSecondaryOpacity * 2.5,
+                                        color: color.withValues(
+                                          alpha: kSecondaryOpacity * 2.5,
                                         ),
                                         size: 32,
                                       ),
@@ -313,8 +316,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                             .textTheme
                                             .titleLarge
                                             ?.copyWith(
-                                              color: color.withOpacity(
-                                                kSecondaryOpacity * 2.5,
+                                              color: color.withValues(
+                                                alpha: kSecondaryOpacity * 2.5,
                                               ),
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -325,8 +328,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                                             .textTheme
                                             .titleSmall
                                             ?.copyWith(
-                                              color: color.withOpacity(
-                                                kSecondaryOpacity * 2.5,
+                                              color: color.withValues(
+                                                alpha: kSecondaryOpacity * 2.5,
                                               ),
                                             ),
                                       ),

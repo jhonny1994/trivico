@@ -29,7 +29,7 @@ const kPrimaryOpacity = 0.1;
 const kSecondaryOpacity = 0.2;
 const kSmallBorderRadius = 12.0;
 const kSmallPadding = EdgeInsets.all(12);
-const timerSeconds = 15;
+const timerSeconds = 10;
 
 Future<void> loadMainDependencies() async {
   await dotenv.load();
@@ -82,19 +82,23 @@ mixin UIButtons {
 
 /// Decoration Mixins
 mixin UIDecorations {
-  static BoxDecoration circularDecoration(BuildContext context,
-      {Color? color,}) {
+  static BoxDecoration circularDecoration(
+    BuildContext context, {
+    Color? color,
+  }) {
     final theme = Theme.of(context);
     final primaryColor = color ?? theme.colorScheme.primary;
 
     return BoxDecoration(
-      color: primaryColor.withOpacity(kPrimaryOpacity),
+      color: primaryColor.withValues(alpha: kPrimaryOpacity),
       shape: BoxShape.circle,
     );
   }
 
-  static BoxDecoration primaryCardDecoration(BuildContext context,
-      {Color? color,}) {
+  static BoxDecoration primaryCardDecoration(
+    BuildContext context, {
+    Color? color,
+  }) {
     final theme = Theme.of(context);
     final primaryColor = color ?? theme.colorScheme.primary;
 
@@ -104,8 +108,8 @@ mixin UIDecorations {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          primaryColor.withOpacity(kPrimaryOpacity),
-          primaryColor.withOpacity(kPrimaryOpacity / 2),
+          primaryColor.withValues(alpha: kPrimaryOpacity),
+          primaryColor.withValues(alpha: kPrimaryOpacity / 2),
         ],
       ),
     );
